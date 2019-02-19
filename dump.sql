@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.14
 -- Dumped by pg_dump version 9.5.14
 
--- Started on 2019-02-19 01:37:53
+-- Started on 2019-02-20 00:30:30
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -25,7 +25,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2121 (class 0 OID 0)
+-- TOC entry 2123 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -106,64 +106,85 @@ CREATE TABLE public.show (
 ALTER TABLE public.show OWNER TO postgres;
 
 --
--- TOC entry 2112 (class 0 OID 25929)
+-- TOC entry 2114 (class 0 OID 25929)
 -- Dependencies: 183
 -- Data for Name: episode; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.episode (id, name, number, related_show, related_season, long_description, short_description, image, date_of_publish, modify_date, video_url, "user's_rating") FROM stdin;
+1	pilot	1	breaking bad	1	first episode	1st episode	\N	2019-02-20	2019-02-20	not yet	10
 \.
 
 
 --
--- TOC entry 2111 (class 0 OID 25919)
+-- TOC entry 2113 (class 0 OID 25919)
 -- Dependencies: 182
 -- Data for Name: season; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.season (id, season_name, season_number, related_show, long_description, short_description, image, date_of_publish, last_modify_date, video_url, "user's_rating") FROM stdin;
+1	first	1	breaking bad	first season	1st season	\N	2019-02-20	2019-02-20	not ready	10
 \.
 
 
 --
--- TOC entry 2110 (class 0 OID 25908)
+-- TOC entry 2112 (class 0 OID 25908)
 -- Dependencies: 181
 -- Data for Name: show; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.show (id, title, subtitle, date_of_start, poster_image, long_description, short_description, priority, date_of_publish, video_url, "user's_rating", last_modify_date) FROM stdin;
+1	breaking bad	go cook	2008-01-20	\N	American story about a ma	good movie	1	2019-02-20	not ready yet	10	2019-02-20
 \.
 
 
 --
--- TOC entry 1995 (class 2606 OID 25936)
--- Name: name; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 1995 (class 2606 OID 25966)
+-- Name: episode_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.episode
-    ADD CONSTRAINT name PRIMARY KEY (name);
+    ADD CONSTRAINT episode_id PRIMARY KEY (id);
 
 
 --
--- TOC entry 1993 (class 2606 OID 25926)
--- Name: season_name; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 1993 (class 2606 OID 25968)
+-- Name: season_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.season
-    ADD CONSTRAINT season_name PRIMARY KEY (season_name);
+    ADD CONSTRAINT season_id PRIMARY KEY (id);
 
 
 --
--- TOC entry 1991 (class 2606 OID 25928)
--- Name: show_name; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 1991 (class 2606 OID 25970)
+-- Name: show_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.show
-    ADD CONSTRAINT show_name PRIMARY KEY (title);
+    ADD CONSTRAINT show_id PRIMARY KEY (id);
 
 
 --
--- TOC entry 2120 (class 0 OID 0)
+-- TOC entry 1997 (class 2606 OID 25971)
+-- Name: has; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.season
+    ADD CONSTRAINT has FOREIGN KEY (id) REFERENCES public.episode(id);
+
+
+--
+-- TOC entry 1996 (class 2606 OID 25981)
+-- Name: has; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.show
+    ADD CONSTRAINT has FOREIGN KEY (id) REFERENCES public.season(id);
+
+
+--
+-- TOC entry 2122 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -174,7 +195,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2019-02-19 01:37:53
+-- Completed on 2019-02-20 00:30:31
 
 --
 -- PostgreSQL database dump complete
